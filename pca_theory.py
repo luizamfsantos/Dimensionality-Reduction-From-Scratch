@@ -62,3 +62,26 @@ def calculate_eigens(A):
     eigenvectors = eigenvectors[:,idx]
     # return the eigenvalues and eigenvectors
     return eigenvalues, eigenvectors
+
+# calculate the projection of the data points onto PC1 (the line spanned by the first eigenvector)
+def calculate_projection(x, pc1):
+    '''
+    Calculate the projection of a vector onto a line
+
+    Parameters
+    ----------
+    x : numpy.ndarray
+        vector
+    pc1 : numpy.ndarray
+        first principal component
+    
+    Returns
+    -------
+    proj_x : numpy.ndarray
+        projection of x onto pc1
+    '''
+    # calculate the norm of pc1
+    norm_pc1 = np.linalg.norm(pc1)
+    # calculate the projection of x onto pc1
+    proj_x = pc1.T.dot(x)/norm_pc1
+    return proj_x
