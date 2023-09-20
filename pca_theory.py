@@ -5,7 +5,6 @@
 import numpy as np
 
 # sample covariance matrix
-# assuming sample is already centered
 def calculate_sample_cov_mat(*vectors):
     '''
     Calculate the unbiased sample covariance matrix of a data set
@@ -28,6 +27,9 @@ def calculate_sample_cov_mat(*vectors):
             raise ValueError('Vectors must be column vectors')
     # create a matrix of the vectors transpose
     X  = np.hstack(vectors).T
+    # check if the matrix is centered if not center it
+    if np.allclose(X.mean(axis=0),np.zeros(X.shape[1])):
+        X = X - X.mean(axis=0)
     # calculate the number of observations
     n = X.shape[0]
     # calculate the sample covariance matrix
@@ -60,13 +62,3 @@ def calculate_eigens(A):
     eigenvectors = eigenvectors[:,idx]
     # return the eigenvalues and eigenvectors
     return eigenvalues, eigenvectors
-
-# example
-v1 = np.array([0,1]).reshape(-1,1)
-v2 = np.array([0,-1]).reshape(-1,1)
-# calculate the sample covariance matrix
-S = calculate_sample_cov_mat(v1,v2)
-# calculate the eigenvalues and eigenvectors
-eigenvalues, eigenvectors = calculate_eigens(S)
-print(eigenvalues)
-print(eigenvectors)
